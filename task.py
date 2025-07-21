@@ -1,10 +1,7 @@
 from pyomo.environ import *
 
-# Config
 machines = ['LaserCutter', 'CNC_Mill', 'PaintStation']
 
-
-# Data Loader
 calendar = {
     'LaserCutter': list(range(480, 1020)),     # 8 AM to 5 PM
     'CNC_Mill': list(range(480, 960)),         # 8 AM to 4 PM
@@ -12,7 +9,6 @@ calendar = {
 }
 
 # Jobs with tasks (job_id, task_id, machine, duration_in_mins, predecessor_task_id)
-
 tasks = [
     ('Job1', 'Cutting', 'LaserCutter', 180, None),
     ('Job1', 'Milling', 'CNC_Mill', 120, 'Cutting'),
@@ -25,10 +21,8 @@ tasks = [
     ('Job3', 'Painting', 'PaintStation', 120, 'Milling'),
 ]
 
-# Model Builder
 model = ConcreteModel()
 
-# Sets
 model.TASKS = RangeSet(0, len(tasks)-1)
 model.MACHINES = Set(initialize=machines)
 
@@ -77,7 +71,6 @@ model.make_span_con = Constraint(model.TASKS, rule=makespan_rule)
 # Objective
 model.obj = Objective(expr=model.makespan, sense=minimize)
 
-# Scheduler
 solver = SolverFactory('glpk')
 result = solver.solve(model, tee=False)
 
