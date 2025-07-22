@@ -8,6 +8,11 @@
     pip install -r requirements.txt
     ```
 
+2. **Change Directory**
+    ```bash
+    cd Factory-Scheduling-Task-main
+    ```
+    
 2. **Run the main script**
     ```bash
     python main.py
